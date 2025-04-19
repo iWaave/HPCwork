@@ -1,0 +1,20 @@
+#include <stdio.h>
+#include <omp.h>
+
+int main() {
+    // Set the number of threads (optional)
+    omp_set_num_threads(4);
+
+    printf("Before the parallel region\n");
+
+    // Explicit parallel region
+    #pragma omp parallel
+    {
+        int thread_id = omp_get_thread_num();
+        printf("Hello from thread %d inside the parallel region\n", thread_id);
+    }
+
+    printf("After the parallel region\n");
+
+    return 0;
+}

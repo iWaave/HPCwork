@@ -1,0 +1,19 @@
+#include <iostream>
+#include <omp.h>
+
+int main() {
+    #pragma omp parallel num_threads(4)
+    {
+        int id = omp_get_thread_num();
+
+        #pragma omp critical
+        std::cout << "Thread " << id << " finished part 1\n";
+
+        #pragma omp barrier
+
+        #pragma omp critical
+        std::cout << "Thread " << id << " starting part 2\n";
+    }
+
+    return 0;
+}
