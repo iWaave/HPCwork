@@ -1,0 +1,62 @@
+Why is TSP NP-Hard?
+No Polynomial-Time Solution Exists:
+
+As the number of cities increases, the time required to compute the exact solution grows exponentially. This is called combinatorial explosion.
+Examples of Time Complexity Growth:
+
+For 3 cities: 3! = 6 routes
+For 4 cities: 4! = 24 routes
+For 10 cities: 10! = 3,628,800 routes
+For n cities: n! (factorial time complexity)
+Verifying vs. Solving:
+
+If you were given a candidate solution (a specific route), you could calculate its total distance in polynomial time. But finding the optimal route among all possible ones is where the problem becomes NP-Hard.
+
+
+
+
+
+Practical Example of TSP
+Scenario
+Imagine a salesman needs to visit 4 cities:
+
+A (starting point)
+B
+C
+D
+
+The distances between cities are represented in the table below:
+
+From → To	A	B	C	D
+     A	        0	10	15	20
+     B	        10	0	35	25
+     C	        15	35	0	30
+     D	        20	25	30	0
+
+Step 1: List All Possible Routes
+For 4 cities, the possible routes are:
+
+A → B → C → D → A
+A → B → D → C → A
+A → C → B → D → A
+A → C → D → B → A
+A → D → B → C → A
+A → D → C → B → A
+
+
+Step 2: Calculate Total Distance for Each Route
+For each route, calculate the total distance:
+
+A → B → C → D → A = 10 (A→B) + 35 (B→C) + 30 (C→D) + 20 (D→A) = 95
+A → B → D → C → A = 10 (A→B) + 25 (B→D) + 30 (D→C) + 15 (C→A) = 80
+A → C → B → D → A = 15 (A→C) + 35 (C→B) + 25 (B→D) + 20 (D→A) = 95
+A → C → D → B → A = 15 (A→C) + 30 (C→D) + 25 (D→B) + 10 (B→A) = 80
+A → D → B → C → A = 20 (A→D) + 25 (D→B) + 35 (B→C) + 15 (C→A) = 95
+A → D → C → B → A = 20 (A→D) + 30 (D→C) + 35 (C→B) + 10 (B→A) = 95
+
+
+Step 3: Identify the Shortest Route
+From the calculations above, the shortest routes are:
+
+A → B → D → C → A with a total distance of 80
+A → C → D → B → A with a total distance of 80

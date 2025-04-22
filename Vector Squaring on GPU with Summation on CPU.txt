@@ -1,0 +1,41 @@
+#include <stdio.h>
+#include <omp.h>
+
+#define N 10
+
+int main() {
+    int i;
+    float input[N], squared[N];
+    float sum = 0;
+
+    // Initialize array
+    for (i = 0; i < N; i++) {
+        input[i] = i + 1;  // 1.0, 2.0, ..., 10.0
+    }
+
+    // Step 1: Run on GPU to square each element
+#pragma omp target map(to: input[0:N]) map(from: squared[0:N])
+#pragma omp parallel for
+    for (i = 0; i < N; i++) {
+        squared[i] = input[i] * input[i];  // GPU work
+    }
+
+    // Step 2: Run on CPU to sum the squared results
+#pragma omp parallel for reduction(+:sum)
+    for (i = 0; i < N; i++) {
+        sum += squared[i];  // CPU work
+    }
+
+    // Print result
+    printf("Sum of squares = %.2f\n", sum);  // Expected: 385.00
+
+    return 0;
+}
+
+
+
+Output:
+
+Sum of squares = 385.00
+
+Execution Time: 0.001000 seconds (Time differs from device to another)

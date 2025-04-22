@@ -1,0 +1,75 @@
+Understanding the Traveling Salesman Problem (TSP)
+Problem Overview:
+A traveling salesman needs to visit n cities exactly once and return to the starting city.
+Each pair of cities has a cost or distance associated with traveling between them.
+The objective is to find the shortest (or least costly) route that visits all cities exactly once and returns to the starting city.
+Applications:
+Vehicle Routing: Optimizing delivery routes for logistics companies like Amazon or FedEx.
+PCB Manufacturing: Minimizing the path length for drilling circuits on a circuit board.
+Tour Planning: Creating efficient travel itineraries for tourism or business.
+Network Packet Routing: Finding efficient paths for data packets in a network.
+
+
+
+
+
+Why is TSP NP-Hard?
+What is NP-Hard?
+NP-Hard (Non-deterministic Polynomial-time hard) problems are problems for which:
+There is no known algorithm that can solve the problem in polynomial time.
+Solving these problems exactly for large inputs is computationally expensive.
+Verifying a solution, however, can be done in polynomial time.
+
+
+
+
+
+Why is TSP Considered NP-Hard?
+Combinatorial Explosion of Routes:
+
+For n cities, the number of possible routes is (n-1)! / 2 (factorial), which grows exponentially as n increases.
+Example:
+For 4 cities, there are 6 possible routes.
+For 10 cities, there are 181,440 routes.
+For 20 cities, there are ~10^18 routes!
+No Polynomial-Time Algorithm:
+
+There is no algorithm that can guarantee finding the exact shortest path in polynomial time for all instances of TSP.
+Optimization Problem:
+
+TSP isn’t just about finding a solution; it’s about finding the optimal solution (shortest route), which adds complexity.
+
+
+
+
+
+Key Terminology:
+Exact Algorithms:
+
+Methods that guarantee finding the optimal solution but require significant computational resources.
+Examples: Brute Force, Branch and Bound, Dynamic Programming.
+Approximation Algorithms:
+
+Methods that find near-optimal solutions in a reasonable time.
+Examples: Greedy Algorithms, Minimum Spanning Tree (MST)-based approaches.
+Heuristic Algorithms:
+
+Practical, rule-of-thumb methods to find good (but not guaranteed optimal) solutions quickly.
+Examples: Genetic Algorithms, Simulated Annealing, Ant Colony Optimization.
+
+
+
+
+Why Does This Matter in the Exercise?
+Analyzing NP-Hardness:
+
+This step will involve understanding the exponential growth of computational time as the number of cities increases.
+Implementing Algorithms:
+
+You’ll compare exact, approximation, and heuristic methods to balance accuracy and speed.
+Parallelizing the Problem:
+
+Using High-Performance Computing (HPC) to split the workload across multiple processors to speed up the computation.
+Using Gem5 for Simulation:
+
+You can simulate how hardware systems perform under different computational loads, such as running TSP algorithms.

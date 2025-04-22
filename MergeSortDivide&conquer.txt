@@ -1,0 +1,84 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <omp.h>
+
+#define SIZE 16  // Try increasing this for better parallelism
+#define THRESHOLD 4  // Minimum size of array to parallelize
+
+// Merge two sorted halves into one
+void merge(int* arr, int low, int mid, int high) {
+    int i = low, j = mid + 1, k = 0;
+    int* temp = (int*)malloc((high - low + 1) * sizeof(int));
+
+    while (i <= mid && j <= high) {
+        if (arr[i] <= arr[j]) temp[k++] = arr[i++];
+        else temp[k++] = arr[j++];
+    }
+    while (i <= mid) temp[k++] = arr[i++];
+    while (j <= high) temp[k++] = arr[j++];
+
+    for (i = low, k = 0; i <= high; i++, k++) arr[i] = temp[k];
+
+    free(temp);
+}
+
+// Recursive merge sort with OpenMP
+void parallel_merge_sort(int* arr, int low, int high) {
+    if (low < high) {
+        int mid = (low + high) / 2;
+
+        if (high - low > THRESHOLD) {
+#pragma omp task firstprivate(arr, low, mid)
+            parallel_merge_sort(arr, low, mid);
+
+#pragma omp task firstprivate(arr, mid, high)
+            parallel_merge_sort(arr, mid + 1, high);
+
+#pragma omp taskwait
+        } else {
+            parallel_merge_sort(arr, low, mid);
+            parallel_merge_sort(arr, mid + 1, high);
+        }
+
+        merge(arr, low, mid, high);
+    }
+}
+
+int main() {
+    int arr[SIZE];
+    printf("Unsorted array:\n");
+    for (int i = 0; i < SIZE; i++) {
+        arr[i] = rand() % 100;
+        printf("%d ", arr[i]);
+    }
+    printf("\n");
+
+    double start = omp_get_wtime();
+
+#pragma omp parallel
+    {
+#pragma omp single
+        parallel_merge_sort(arr, 0, SIZE - 1);
+    }
+
+    double end = omp_get_wtime();
+
+    printf("Sorted array:\n");
+    for (int i = 0; i < SIZE; i++) {
+        printf("%d ", arr[i]);
+    }
+    printf("\nExecution Time: %.6f seconds\n", end - start);
+
+    return 0;
+}
+
+
+
+Output:
+
+Unsorted array:
+41 67 34 0 69 24 78 58 62 64 5 45 81 27 61 91
+Sorted array:
+0 5 24 27 34 41 45 58 61 62 64 67 69 78 81 91
+
+Execution Time: 0.034000 seconds (Time could be differnt from device to antoher)

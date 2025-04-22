@@ -1,0 +1,43 @@
+#include <stdio.h>
+#include <omp.h>
+
+int main() {
+    double start = omp_get_wtime();
+
+#pragma omp parallel
+    {
+        int tid = omp_get_thread_num();
+
+        if (tid == 0) {
+            printf("Thread %d: Loading data\n", tid);
+        } else if (tid == 1) {
+            printf("Thread %d: Processing data\n", tid);
+        } else if (tid == 2) {
+            printf("Thread %d: Saving results\n", tid);
+        } else {
+            printf("Thread %d: Doing extra logging\n", tid);
+        }
+    }
+
+    double end = omp_get_wtime();
+    printf("Execution Time: %.6f seconds\n", end - start);
+
+    return 0;
+}
+
+
+Output: (Random threads)
+
+Thread 1: Processing data
+Thread 5: Doing extra logging
+Thread 4: Doing extra logging
+Thread 2: Saving results
+Thread 7: Doing extra logging
+Thread 10: Doing extra logging
+Thread 3: Doing extra logging
+Thread 0: Loading data
+Thread 6: Doing extra logging
+Thread 8: Doing extra logging
+Thread 9: Doing extra logging
+Thread 11: Doing extra logging
+Execution Time: 0.027000 seconds

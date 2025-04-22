@@ -1,0 +1,41 @@
+#include <stdio.h>
+#include <omp.h>
+
+int main() {
+    double start_time = omp_get_wtime();  // Start timing
+
+#pragma omp parallel num_threads(4)
+    {
+        int id = omp_get_thread_num();
+
+#pragma omp critical
+        printf("Thread %d finished part 1\n", id);
+
+#pragma omp barrier
+
+#pragma omp critical
+        printf("Thread %d starting part 2\n", id);
+    }
+
+    double end_time = omp_get_wtime();  // End timing
+
+    printf("Execution Time: %.6f seconds\n", end_time - start_time);
+
+    return 0;
+}
+
+
+
+
+expected output but random threads:
+
+Thread 0 finished part 1
+Thread 1 finished part 1
+Thread 3 finished part 1
+Thread 2 finished part 1
+Thread 0 starting part 2
+Thread 1 starting part 2
+Thread 3 starting part 2
+Thread 2 starting part 2
+
+Execution Time: 0.020000 seconds (This could be different from one device to another)

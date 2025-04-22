@@ -1,0 +1,36 @@
+#include <stdio.h>
+#include <omp.h>
+
+#define N 1000
+
+int main() {
+    float A[N], B[N];
+    float dot = 0.0f;
+
+    // Initialize vectors
+    for (int i = 0; i < N; i++) {
+        A[i] = i * 1.0f;
+        B[i] = i * 2.0f;
+    }
+
+    double start = omp_get_wtime();
+
+    // SIMD Dot Product with reduction
+#pragma omp simd reduction(+:dot)
+    for (int i = 0; i < N; i++) {
+        dot += A[i] * B[i];
+    }
+
+    double end = omp_get_wtime();
+
+    printf("Dot Product: %.2f\n", dot);
+    printf("Execution Time: %.6f seconds\n", end - start);
+
+    return 0;
+}
+
+
+Output:
+
+Dot Product: 665666304.00
+Execution Time: 0.000000 seconds (Time Differs)
